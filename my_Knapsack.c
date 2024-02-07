@@ -66,13 +66,12 @@ int main()
     }
     int knapSack_weight = knapSack(weight, prices, selected);
     printf("Maximum profit: %d\n", knapSack_weight);
-    printf("Selected items: ");
+    printf("Selected items:");
     for (size_t i = 0; i < NUM_OF_ITEMS; i++)
     {
         if (selected[i] == 1)
         {
-            printf("%s ", items[i]);
+            printf(" %s", items[i]);
         }
     }
-    printf("\n");
 }
