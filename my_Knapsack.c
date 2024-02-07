@@ -16,23 +16,23 @@ int knapSack(int weights[], int values[], int selected_bool[])
     int mat[NUM_OF_ITEMS + 1][BAG_WEIGHT + 1];
     for (size_t i = 0; i < NUM_OF_ITEMS + 1; i++)
     {
-        mat[0][i] = 0;
+        mat[i][0] = 0;
     }
     for (size_t i = 0; i < BAG_WEIGHT + 1; i++)
     {
-        mat[i][0] = 0;
+        mat[0][i] = 0;
     }
-    for (size_t i = 1; i < BAG_WEIGHT + 1; i++)
+    for (size_t i = 1; i < NUM_OF_ITEMS + 1; i++)
     {
-        for (size_t j = 1; j < NUM_OF_ITEMS + 1; j++)
+        for (size_t j = 1; j < BAG_WEIGHT + 1; j++)
         {
-            if (weights[i] > j)
+            if (weights[i-1] > j)
             {
                  mat[i][j] = mat[i-1][j];
             }
              else
              {
-                 mat[i][j] = max(mat[i-1][j], mat[i-1][j-weights[i]] + values[i]);
+                 mat[i][j] = max(mat[i-1][j], (mat[i-1][j-weights[i-1]] + values[i-1]));
              }
         }
     }
@@ -40,24 +40,25 @@ int knapSack(int weights[], int values[], int selected_bool[])
     size_t j = BAG_WEIGHT;
     while (i > 0 && j > 0)
     {
-        if(mat[i][j] == mat[i-1][j])
+        if(j < weights[i-1] || mat[i][j] == mat[i-1][j])
         {
             i--;
         }
         else
         {
-            selected_bool[i] = 1;
+            selected_bool[i-1] = 1;
+            j = j - weights[i-1];
             i--;
-            j = j - weights[i];
         }
+        
     }
     return mat[NUM_OF_ITEMS][BAG_WEIGHT];
 }
 int main()
 {
-    int weight[NUM_OF_ITEMS];
+    int weight[NUM_OF_ITEMS] = {0};
     char items[NUM_OF_ITEMS][NAME_LENGTH];
-    int prices[NUM_OF_ITEMS];
+    int prices[NUM_OF_ITEMS] = {0};
     int selected[NUM_OF_ITEMS] = {0};
     for (size_t i = 0; i < NUM_OF_ITEMS; i++)
     {
@@ -70,8 +71,8 @@ int main()
     {
         if (selected[i] == 1)
         {
-            printf("%d", selected[i]);
+            printf("%s ", items[i]);
         }
     }
+    printf("\n");
 }
-
