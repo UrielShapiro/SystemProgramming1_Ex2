@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include "my_mat.h"
 /* 
 Function to initiate a matrix using the input from the user
@@ -24,7 +23,7 @@ int weightOfShortestPath(int mat[][MATRIX_SIZE], int matrix_size, int start, int
     {
         for (size_t l = 0; l < matrix_size; l++)
         {
-            distanceMatrix[l][m] = infinity;    //Initiate the matrix where each vertix has a distance of infinity to each other
+            distanceMatrix[l][m] = INFINITY;    //Initiate the matrix where each vertix has a distance of infinity to each other
         }
     }
     for (size_t i = 0; i < matrix_size; i++)
@@ -45,18 +44,22 @@ int weightOfShortestPath(int mat[][MATRIX_SIZE], int matrix_size, int start, int
             {
                 if(i != j)  //Calculate the shortest path only if the vertices are not the same
                 {
-                    if (distanceMatrix[i][j] == infinity || distanceMatrix[i][j] > distanceMatrix[i][k] + distanceMatrix[k][j])
+                    //If the distance between the vertices is undifined yet (infinity) or the distance between vertices i,k and k,j is shorter than the distance between i,j. 
+                    //Then we found a shorter path between i and j through k.
+                    //Therefore we update the distance between i and j to the distance between i and k + the distance between k and j.
+                    if (distanceMatrix[i][j] == INFINITY || distanceMatrix[i][j] > distanceMatrix[i][k] + distanceMatrix[k][j])
                     {
-                        if(distanceMatrix[i][k] > infinity && distanceMatrix[k][j] > infinity) 
+                        //Checking if there is a connection between the vertices i and k and between k and j (if there is no connection, the weight of the path is infinity)
+                        if(distanceMatrix[i][k] != INFINITY && distanceMatrix[k][j] != INFINITY) 
                         {
-                            distanceMatrix[i][j] = distanceMatrix[i][k] + distanceMatrix[k][j];
+                            distanceMatrix[i][j] = distanceMatrix[i][k] + distanceMatrix[k][j]; //Update the distance between i and j
                         }
                     }
                 }
             }
         }
     }
-    if (distanceMatrix[start][end] == infinity)    //If there is no connection between the vertices
+    if (distanceMatrix[start][end] == INFINITY)    //If there is no connection between the vertices
     {
         return -1;
     }

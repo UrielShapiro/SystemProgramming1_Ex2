@@ -1,6 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
 #include "my_mat.h"
 
 int main()
@@ -36,6 +34,6 @@ do  //A loop that will get char input from the user and will call the relevant f
     default:
         break;
     }
-} while (choice != 'D' && choice != EOF);
+} while (choice != 'D' && choice != EOF);   //The loop will continue untill the user will enter 'D' or EOF
  return 0;
 }
