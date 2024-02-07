@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "my_mat.h"
 
-void inputMatrix(int** mat, int n)
+void inputMatrix(int mat[][MATRIX_SIZE], int n)
 {
     for(size_t i = 0; i < n; i++)
     {
@@ -12,42 +12,47 @@ void inputMatrix(int** mat, int n)
         }
     }
 }
-int weightOfShortestPath(int** mat, int n, int start, int end)
+int weightOfShortestPath(int mat[][MATRIX_SIZE], int matrix_size, int start, int end)
 {
-    int** distanceMatrix = (int**) malloc(n * sizeof(int));
-    for (size_t i = 0; i < n; i++)
+    int distanceMatrix[matrix_size][matrix_size];
+    int infinity = 0;
+    for(size_t m = 0; m < matrix_size; m++)
     {
-        distanceMatrix[i] = (int*) malloc(n * sizeof(int));
-    }
-    for (size_t i = 0; i < n; i++)
-    {
-        for (size_t j = 0; j < n; j++)
+        for (size_t l = 0; l < matrix_size; l++)
         {
-            if (i == j)
-            {
-                distanceMatrix[j][i] = 0;
-            }
-            else
+            distanceMatrix[l][m] = infinity;
+        }
+    }
+    for (size_t i = 0; i < matrix_size; i++)
+    {
+        for (size_t j = 0; j < matrix_size; j++)
+        {
+            if(mat[j][i] > 0)
             {
               distanceMatrix[j][i] = mat[j][i];
             }
         }
     }
-    for (size_t k = 0; k < n; k++)
+    for (size_t k = 0; k < matrix_size; k++)
     {
-        for (size_t i = 0; i < n; i++)
+        for (size_t i = 0; i < matrix_size; i++)
         {
-            for (size_t j = 0; j < n; j++)
+            for (size_t j = 0; j < matrix_size; j++)
             {
-                if (distanceMatrix[i][j] > distanceMatrix[i][k] + distanceMatrix[k][j])
+                if(i != j)
                 {
-                    distanceMatrix[i][j] = distanceMatrix[i][k] + distanceMatrix[k][j];
+                    if (distanceMatrix[i][j] == infinity || distanceMatrix[i][j] > distanceMatrix[i][k] + distanceMatrix[k][j])
+                    {
+                        if(distanceMatrix[i][k] > infinity && distanceMatrix[k][j] > infinity)
+                        {
+                            distanceMatrix[i][j] = distanceMatrix[i][k] + distanceMatrix[k][j];
+                        }
+                    }
                 }
             }
-            
         }
     }
-    if (distanceMatrix[start][end] == 0)
+    if (distanceMatrix[start][end] == infinity)
     {
         return -1;
     }
@@ -56,14 +61,9 @@ int weightOfShortestPath(int** mat, int n, int start, int end)
         return distanceMatrix[start][end];
     }
 }
-int ValidPath(int** mat, int n, int i, int j)
+int ValidPath(int mat[][MATRIX_SIZE], int n, int i, int j)
 {
-    if (mat[i][j] == 0)
-    {
-        return FALSE;
-    }
-    
-    if(weightOfShortestPath(mat, n, i, j) > 0)
+    if(weightOfShortestPath(mat, n, i, j) != -1)
     {
         return TRUE;
     }
