@@ -14,7 +14,7 @@ void inputMatrix(int mat[][MATRIX_SIZE], int n)
     }
 }
 /*
-Function to calculate the weight of the shortest path between two vertices using the Floyd-Warshall algorithm
+Function to calculate the minumum weight of the shortest path between two vertices using the Floyd-Warshall algorithm
 */
 int weightOfShortestPath(int mat[][MATRIX_SIZE], int matrix_size, int start, int end)
 {
@@ -24,6 +24,7 @@ int weightOfShortestPath(int mat[][MATRIX_SIZE], int matrix_size, int start, int
         for (size_t l = 0; l < matrix_size; l++)
         {
             distanceMatrix[l][m] = INFINITY;    //Initiate the matrix where each vertix has a distance of infinity to each other
+            //We define the infinity distance as 0.
         }
     }
     for (size_t i = 0; i < matrix_size; i++)

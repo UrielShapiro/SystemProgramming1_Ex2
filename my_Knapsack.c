@@ -15,6 +15,7 @@ int max(int num1, int num2)
 int knapSack(int weights[], int values[], int selected_bool[])
 {
     int mat[NUM_OF_ITEMS + 1][BAG_WEIGHT + 1]; //Create a matrix that will hold the maximum value of the items that can be put in the bag
+    //Will be used for the dynamic programming approach
     for (size_t i = 0; i < NUM_OF_ITEMS + 1; i++)
     {
         mat[i][0] = 0;  //Initiate the first column of the matrix to 0
@@ -30,7 +31,7 @@ int knapSack(int weights[], int values[], int selected_bool[])
             if (weights[i-1] > j)   //If the weight of the item is greater than the weight of that column
             {
                  mat[i][j] = mat[i-1][j];   //Current weight is greater than the weight of the column, 
-                 //so the value will be the same as the value of the previous item
+                 //so we cant add the item to the bag. The value of the cell will be the same as the weight without that item.
             }
             else //If the weight of the item is less than the weight of that column
              {
